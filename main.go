@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"gopkg.in/yaml.v2"
@@ -94,29 +93,30 @@ type config struct {
 
 func main() {
 	c := config{}
+	out := config{}
 
 	if err := yaml.Unmarshal([]byte(data), &c); err != nil {
 		log.Fatalf("error: %v", err)
 	}
 
 	for _, cont := range c.Contexts {
-		fmt.Printf("apiVersion: %s\n", c.APIVersion)
-		fmt.Printf("kind: %s\n", c.Kind)
-		fmt.Printf("current-context: %s\n", cont.Name)
-		fmt.Printf("%v: %v\n", cont.Name, cont.Context)
+		out.APIVersion = c.APIVersion
+		out.Kind = c.Kind
+		out.CurrentContext = cont.Name
 
 		for _, clus := range c.Clusters {
 			if clus.Name == cont.Name {
-				fmt.Printf("%v: %v\n", clus.Name, clus.Cluster)
+				// TODO
 			}
 		}
 
 		for _, user := range c.Users {
 			if user.Name == cont.Context.User {
-				fmt.Printf("%v: %v\n", user.Name, user.User)
+				// TODO
 			}
 		}
 
-		fmt.Println()
+		// output, err := yaml.Marshal(&out)
+		// fmt.Printf("%v", output)
 	}
 }
