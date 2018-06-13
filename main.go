@@ -99,9 +99,24 @@ func main() {
 		log.Fatalf("error: %v", err)
 	}
 
-	fmt.Printf("apiVersion: %s\n", c.APIVersion)
-	for _, clus := range c.Clusters {
-		fmt.Printf("%v: %v\n", clus.Name, clus.Cluster)
-	}
+	for _, cont := range c.Contexts {
+		fmt.Printf("apiVersion: %s\n", c.APIVersion)
+		fmt.Printf("kind: %s\n", c.Kind)
+		fmt.Printf("current-context: %s\n", cont.Name)
+		fmt.Printf("%v: %v\n", cont.Name, cont.Context)
 
+		for _, clus := range c.Clusters {
+			if clus.Name == cont.Name {
+				fmt.Printf("%v: %v\n", clus.Name, clus.Cluster)
+			}
+		}
+
+		for _, user := range c.Users {
+			if user.Name == cont.Context.User {
+				fmt.Printf("%v: %v\n", user.Name, user.User)
+			}
+		}
+
+		fmt.Println()
+	}
 }
