@@ -67,16 +67,27 @@ type Cluster struct {
 }
 
 type Clusters struct {
-	Name    string `yaml:"name"`
-	Cluster Cluster
+	Name    string  `yaml:"name"`
+	Cluster Cluster `yaml:"cluster"`
+}
+
+type Context struct {
+	Cluster string `yaml:"cluster"`
+	User    string `yaml:"user"`
+}
+
+type Contexts struct {
+	Name    string  `yaml:"name"`
+	Context Context `yaml:"context"`
 }
 
 type c2 struct {
-	APIVersion string `yaml:"apiVersion"`
-	Clusters   []Clusters
+	APIVersion string     `yaml:"apiVersion"`
+	Clusters   []Clusters `yaml:"clusters"`
+	Contexts   []Contexts `yaml:"contexts"`
 }
 
-type config struct {
+type c1 struct {
 	APIVersion string `yaml:"apiVersion"`
 	Clusters   []struct {
 		Cluster struct {
@@ -108,8 +119,8 @@ type config struct {
 }
 
 func main() {
-	c := config{}
-	out := config{}
+	c := c2{}
+	out := c2{}
 
 	if err := yaml.Unmarshal([]byte(data), &c); err != nil {
 		log.Fatalf("error: %v", err)
