@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"gopkg.in/yaml.v2"
@@ -81,10 +82,26 @@ type Contexts struct {
 	Context Context `yaml:"context"`
 }
 
+type User struct {
+	ClientCertificateData string `yaml:"client-certificate-data"`
+	ClientKeyData         string `yaml:"client-key-data"`
+	Password              string `yaml:"password"`
+	Username              string `yaml:"username"`
+}
+
+type Users struct {
+	Name string `yaml:"name"`
+	User User   `yaml:"user"`
+}
+
 type c2 struct {
-	APIVersion string     `yaml:"apiVersion"`
-	Clusters   []Clusters `yaml:"clusters"`
-	Contexts   []Contexts `yaml:"contexts"`
+	APIVersion     string     `yaml:"apiVersion"`
+	Clusters       []Clusters `yaml:"clusters"`
+	Contexts       []Contexts `yaml:"contexts"`
+	CurrentContext string     `yaml:"current-context"`
+	Kind           string     `yaml:"kind"`
+	Preferences    struct{}   `yaml:"preferences"`
+	Users          []Users    `yaml:"users"`
 }
 
 type c1 struct {
@@ -133,7 +150,7 @@ func main() {
 
 		for _, clus := range c.Clusters {
 			if clus.Name == cont.Name {
-				// TODO
+				out.Clusters = []Clusters{Clusters{Name: cont.Name}}
 			}
 		}
 
@@ -143,7 +160,10 @@ func main() {
 			}
 		}
 
-		// output, err := yaml.Marshal(&out)
-		// fmt.Printf("%v", output)
+		out, err := yaml.Marshal(&out)
+		if err != nil {
+			log.Fatalf("error: %v", err)
+		}
+		fmt.Printf("%v", string(out))
 	}
 }
