@@ -58,7 +58,23 @@ users:
   user:
     client-certificate-data: LS0tLSRPT0s1YmM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     client-key-data: LS0tLS1CRCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+
 `
+
+type Cluster struct {
+	CertificateAuthorityData string `yaml:"certificate-authority-data"`
+	Server                   string `yaml:"server"`
+}
+
+type Clusters struct {
+	Name    string `yaml:"name"`
+	Cluster Cluster
+}
+
+type c2 struct {
+	APIVersion string `yaml:"apiVersion"`
+	Clusters   []Clusters
+}
 
 type config struct {
 	APIVersion string `yaml:"apiVersion"`
