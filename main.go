@@ -93,7 +93,7 @@ type Users struct {
 	User User   `yaml:"user"`
 }
 
-type c2 struct {
+type config struct {
 	APIVersion     string     `yaml:"apiVersion"`
 	Clusters       []Clusters `yaml:"clusters"`
 	Contexts       []Contexts `yaml:"contexts"`
@@ -103,40 +103,9 @@ type c2 struct {
 	Users          []Users    `yaml:"users"`
 }
 
-type c1 struct {
-	APIVersion string `yaml:"apiVersion"`
-	Clusters   []struct {
-		Cluster struct {
-			CertificateAuthorityData string `yaml:"certificate-authority-data"`
-			Server                   string `yaml:"server"`
-		} `yaml:"cluster"`
-		Name string `yaml:"name"`
-	} `yaml:"clusters"`
-	Contexts []struct {
-		Context struct {
-			Cluster string `yaml:"cluster"`
-			User    string `yaml:"user"`
-		} `yaml:"context"`
-		Name string `yaml:"name"`
-	} `yaml:"contexts"`
-	CurrentContext string `yaml:"current-context"`
-	Kind           string `yaml:"kind"`
-	Preferences    struct {
-	} `yaml:"preferences"`
-	Users []struct {
-		Name string `yaml:"name"`
-		User struct {
-			ClientCertificateData string `yaml:"client-certificate-data"`
-			ClientKeyData         string `yaml:"client-key-data"`
-			Password              string `yaml:"password"`
-			Username              string `yaml:"username"`
-		} `yaml:"user"`
-	} `yaml:"users"`
-}
-
 func main() {
-	c := c2{}
-	out := c2{}
+	c := config{}
+	out := config{}
 
 	if err := yaml.Unmarshal([]byte(data), &c); err != nil {
 		log.Fatalf("error: %v", err)
