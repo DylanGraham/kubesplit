@@ -146,7 +146,7 @@ func main() {
 		out.APIVersion = c.APIVersion
 		out.Kind = c.Kind
 		out.CurrentContext = cont.Name
-		out.Contexts = []Contexts{Contexts{Name: cont.Name}}
+		out.Contexts = []Contexts{Contexts{cont.Name, Context{cont.Context.Cluster, cont.Context.User}}}
 
 		for _, clus := range c.Clusters {
 			if clus.Name == cont.Name {
@@ -156,11 +156,7 @@ func main() {
 
 		for _, user := range c.Users {
 			if user.Name == cont.Context.User {
-				out.Users = []Users{Users{Name: user.Name}}
-				out.Users[0].User.ClientCertificateData = user.User.ClientCertificateData
-				out.Users[0].User.ClientKeyData = user.User.ClientKeyData
-				out.Users[0].User.Password = user.User.Password
-				out.Users[0].User.Username = user.User.Username
+				out.Users = []Users{Users{user.Name, User{user.User.ClientCertificateData, user.User.ClientKeyData, user.User.Password, user.User.Username}}}
 			}
 		}
 
