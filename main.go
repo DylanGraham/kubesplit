@@ -59,7 +59,6 @@ users:
   user:
     client-certificate-data: LS0tLSRPT0s1YmM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     client-key-data: LS0tLS1CRCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
-
 `
 
 type Cluster struct {
@@ -147,16 +146,21 @@ func main() {
 		out.APIVersion = c.APIVersion
 		out.Kind = c.Kind
 		out.CurrentContext = cont.Name
+		out.Contexts = []Contexts{Contexts{Name: cont.Name}}
 
 		for _, clus := range c.Clusters {
 			if clus.Name == cont.Name {
-				out.Clusters = []Clusters{Clusters{Name: cont.Name}}
+				out.Clusters = []Clusters{Clusters{cont.Name, Cluster{clus.Cluster.CertificateAuthorityData, clus.Cluster.Server}}}
 			}
 		}
 
 		for _, user := range c.Users {
 			if user.Name == cont.Context.User {
-				// TODO
+				out.Users = []Users{Users{Name: user.Name}}
+				out.Users[0].User.ClientCertificateData = user.User.ClientCertificateData
+				out.Users[0].User.ClientKeyData = user.User.ClientKeyData
+				out.Users[0].User.Password = user.User.Password
+				out.Users[0].User.Username = user.User.Username
 			}
 		}
 
@@ -164,6 +168,6 @@ func main() {
 		if err != nil {
 			log.Fatalf("error: %v", err)
 		}
-		fmt.Printf("%v", string(out))
+		fmt.Printf("%v\n", string(out))
 	}
 }
