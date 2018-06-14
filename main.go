@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
 
 	"gopkg.in/yaml.v2"
 )
@@ -103,11 +105,30 @@ type config struct {
 	Users          []Users    `yaml:"users"`
 }
 
+func init() {
+	if len(os.Args) < 2 {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s %s\n\n", os.Args[0], "<config>")
+		os.Exit(-1)
+	}
+}
+
+func readFile(b []byte) []byte {
+	b, err := ioutil.ReadFile(os.Args[1])
+	if err != nil {
+		log.Fatalf("couldn't read file: %v", err)
+	}
+	return b
+}
+
 func main() {
+	var bytes []byte
+	bytes = readFile(bytes)
+
 	c := config{}
 	out := config{}
 
-	if err := yaml.Unmarshal([]byte(data), &c); err != nil {
+	if err := yaml.Unmarshal([]byte(bytes), &c); err != nil {
 		log.Fatalf("error: %v", err)
 	}
 
