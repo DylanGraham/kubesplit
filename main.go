@@ -96,7 +96,7 @@ func main() {
 		log.Fatalf("error: %v", err)
 	}
 
-	for _, cont := range c.Contexts {
+	for i, cont := range c.Contexts {
 		out.APIVersion = c.APIVersion
 		out.Kind = c.Kind
 		out.CurrentContext = cont.Name
@@ -118,6 +118,10 @@ func main() {
 		if err != nil {
 			log.Fatalf("error: %v", err)
 		}
-		fmt.Printf("%v\n", string(out))
+
+		filename := fmt.Sprintf("config-split-%d", i)
+		if err := ioutil.WriteFile(filename, out, 0600); err != nil {
+			log.Fatalf("error: %v", err)
+		}
 	}
 }
