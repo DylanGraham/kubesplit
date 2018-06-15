@@ -13,6 +13,8 @@ kubesplit is a simple tool to split merged kubernetes config files.
 ## Example
 
 ```
+$ ls
+config
 $ kubesplit config
 $ ls
 config config-split-1 config-split-2
