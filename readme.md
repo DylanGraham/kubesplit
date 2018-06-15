@@ -17,7 +17,7 @@ $ ls
 config
 $ kubesplit config
 $ ls
-config config-split-1 config-split-2
+config config-split-0 config-split-1
 ```
 
 ## Why?
