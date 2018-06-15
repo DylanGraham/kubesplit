@@ -24,6 +24,16 @@ Tools have varying levels of support for multiple kubernetes config files and th
 
 I find myself in the situation of having some clean separate files, such as `config-gke` and `config-local`, but then also a merged default file at `config` which gets data added from tools such as `kops` upon cluster initialisation.
 
+This tool aims to keep cluster config neatly organised into one file per config, allowing you flexibility to specify multiple files with KUBECONFIG or specify your chosen config when required, eg:
+
+`KUBECONFIG=~/.kube/config-x istioctl get virtualservices`
+
+## Recommended tools
+https://github.com/ahmetb/kubectx
+
+Fast way to switch between clusters and namespaces in kubectl!
+
+
 ## License
 
 GPLv3
