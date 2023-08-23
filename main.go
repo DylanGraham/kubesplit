@@ -120,6 +120,7 @@ func main() {
 		}
 
 		filename := fmt.Sprintf("config-split-%d", i)
+		filename = cont.Name + ".yaml"
 		if err := ioutil.WriteFile(filename, out, 0600); err != nil {
 			log.Fatalf("error: %v", err)
 		}
